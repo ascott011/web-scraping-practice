@@ -9,18 +9,19 @@ headers = {
     "User-Agent": "Mozilla/5.0"
 }
 
-url = 'https://en.wikipedia.org/wiki/Green_Bay_Packers'
+url = 'https://www.nfl.com/stats/team-stats/'
+
 response = requests.get(url, headers=headers)
+if response.status_code != 200:
+    print("Failed to retrieve the webpage")
+    print(response.status_code)
+    exit()
 soup = BeautifulSoup(response.content, 'html.parser')
 
-h1 = soup.find("h1").get_text()
+headers = soup.find("thead").text.splitlines()
+table_body = soup.find("tbody")
+rows = table_body.find_all("tr")
+cells = rows[1].find_all("td")
 
-print(response.status_code)
-print(h1)
-
-
-# url = requests.get('https://www.wsj.com/').text
-# soup = BeautifulSoup(url, 'html.parser')
-
-# print(soup.find("h1").get_text())
-
+print(list(headers)[2:])
+print([cell.get_text(strip=True) for cell in cells])
