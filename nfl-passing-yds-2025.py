@@ -48,13 +48,9 @@ def get_stats(url, headers):
     
     return column_headers, all_team_stats
 
-print(get_stats(url, headers))
-
 column_headers, team_stats = get_stats(url, headers)
 
 def create_pandas_df(data, headers):
     df = pd.DataFrame(data=data, columns=headers)
-
-create_pandas_df(team_stats, column_headers)
 
 print(create_pandas_df(team_stats, column_headers))
