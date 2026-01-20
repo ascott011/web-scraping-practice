@@ -54,7 +54,6 @@ column_headers, team_stats = get_stats(url, headers)
 
 def create_pandas_df(data, headers):
     df = pd.DataFrame(data=data, columns=headers)
-    print(df.head())
 
 create_pandas_df(team_stats, column_headers)
 

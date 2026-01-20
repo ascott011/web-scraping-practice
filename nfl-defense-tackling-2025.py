@@ -23,9 +23,31 @@ def get_stats(url, headers):
     column_headers = soup.find("thead").text.splitlines()[2:-1] 
     table_body = soup.find("tbody")
     rows = table_body.find_all("tr")
-    print(rows[1])
-    # for row in rows:
-    #     cells = row.find_all("td")
-    #     print(cells[0:4])
 
-get_stats(url, headers)
+    all_team_stats = []
+
+    for row in rows:
+        cells = row.find_all("td")
+        #accounts for any blank cells
+        if not cells:
+            continue
+        
+        #team name entered twice so just grabbing once
+        teams_data = []
+        team_name_cell = cells[0]
+        short_team_name = team_name_cell.find("div", class_="d3-o-club-shortname")
+        teams_data.append(short_team_name.get_text(strip=True))
+        
+        #loop through the rest of the stats
+        for cell in cells[1:]:
+            teams_data.append(cell.get_text(strip=True))
+        all_team_stats.append(teams_data)
+
+    return column_headers, all_team_stats
+
+column_headers, all_team_stats = get_stats(url, headers)
+
+def create_pandas_df(data, headers):
+    df = pd.DataFrame(data=data, columns=headers)
+
+print(create_pandas_df(all_team_stats, column_headers))
