@@ -5,3 +5,5 @@
 ### Beautiful Soup
 
 #### Scraped data from the 2025 NFL season starting with passing data
+
+I scraped data from the NFL's official website and also from ESPN. 
